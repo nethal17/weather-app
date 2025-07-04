@@ -1,14 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Weather.css"
-import { Search } from "lucide-react"
 
 import clear_icon1 from "../assets/anim_clear.svg";
 import cloud_icon1 from "../assets/anim_cloud.svg";
 import drizzle_icon1 from "../assets/anim_drizzle.svg";
 import rain_icon1 from "../assets/anim_rain.svg";
 import snow_icon1 from "../assets/anim_snow.svg";
-
-
 
 import { toast } from "react-hot-toast";
 import humidity_icon from "../assets/humidity.png";
@@ -44,7 +41,13 @@ const Weather = () => {
     const search = async (city) => {
         if (city === "") {
             toast('Please enter city name!', {
-                icon: '📥'
+                icon: '👀',
+                style: {
+                    height: '60px',
+                    background: 'linear-gradient(45deg, #2678ea, #020121)',
+                    color: '#ffffff',
+                    fontSize: '22px'
+                }
               });
             return;
         }
@@ -56,7 +59,15 @@ const Weather = () => {
             const data = await response.json();
 
             if (!response.ok) {
-                toast.error('City not found!');
+                toast('City not found!', {
+                    icon: '🚫',
+                    style: {
+                        height: '60px',
+                        background: 'linear-gradient(45deg, #2678ea, #020121)',
+                        color: '#ffffff',
+                        fontSize: '22px'
+                    }
+                  });
                 return;
             }
 
@@ -76,7 +87,7 @@ const Weather = () => {
     }
 
     useEffect(() => {
-        search("Colombo");
+        search("Malabe");
     }, []);
 
   return (
