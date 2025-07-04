@@ -1,13 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Weather.css"
-import clear_icon from "../assets/clear.png";
-import cloud_icon from "../assets/cloud.png";
-import drizzle_icon from "../assets/drizzle.png";
+import { Search } from "lucide-react"
+
+import clear_icon1 from "../assets/anim_clear.svg";
+import cloud_icon1 from "../assets/anim_cloud.svg";
+import drizzle_icon1 from "../assets/anim_drizzle.svg";
+import rain_icon1 from "../assets/anim_rain.svg";
+import snow_icon1 from "../assets/anim_snow.svg";
+
+
+
+import { toast } from "react-hot-toast";
 import humidity_icon from "../assets/humidity.png";
-import rain_icon from "../assets/rain.png";
-import search_icon from "../assets/search.png";
-import snow_icon from "../assets/snow.png";
 import wind_icon from "../assets/wind.png";
+import search_icon from "../assets/search.png";
 
 const Weather = () => {
     const inputRef = useRef();
@@ -19,25 +25,27 @@ const Weather = () => {
         icon: [] 
     });
     const allIcons = {
-        "01d": clear_icon,
-        "01n": clear_icon,
-        "02d": cloud_icon,
-        "02n": cloud_icon,
-        "03d": cloud_icon,
-        "03n": cloud_icon,
-        "04d": drizzle_icon,
-        "04n": drizzle_icon,
-        "09d": rain_icon,
-        "09n": rain_icon,
-        "10d": rain_icon,
-        "10n": rain_icon,
-        "13d": snow_icon,
-        "13n": snow_icon,
+        "01d": clear_icon1,
+        "01n": clear_icon1,
+        "02d": cloud_icon1,
+        "02n": cloud_icon1,
+        "03d": cloud_icon1,
+        "03n": cloud_icon1,
+        "04d": drizzle_icon1,
+        "04n": drizzle_icon1,
+        "09d": rain_icon1,
+        "09n": rain_icon1,
+        "10d": rain_icon1,
+        "10n": rain_icon1,
+        "13d": snow_icon1,
+        "13n": snow_icon1,
     };
-
+    
     const search = async (city) => {
         if (city === "") {
-            alert("Enter city name");
+            toast('Please enter city name!', {
+                icon: '📥'
+              });
             return;
         }
 
@@ -48,12 +56,12 @@ const Weather = () => {
             const data = await response.json();
 
             if (!response.ok) {
-                alert(data.message);
+                toast.error('City not found!');
                 return;
             }
 
             console.log(data);
-            const weatherIcon = allIcons[data.weather[0].icon] || clear_icon;
+            const weatherIcon = allIcons[data.weather[0].icon] || clear_icon1;
             setWeatherData({
                 humidity: data.main.humidity,
                 windSpeed: data.wind.speed,
@@ -79,20 +87,20 @@ const Weather = () => {
         </div>
         {(weatherData)?<>
             <img src={weatherData.icon} alt="" className="weather-icon"/>
-            <p className="temp">{weatherData.temperature} C</p>
+            <p className="temp">{weatherData.temperature}°c</p>
             <p className="location">{weatherData.location}</p>
             <div className="weather-data">
                 <div className="col">
                     <img src={humidity_icon} alt="" />
                     <div>
-                        <p>{weatherData.humidity} %</p>
+                        <p>{weatherData.humidity}%</p>
                         <span>Humidity</span>
                     </div>
                 </div>
                 <div className="col">
                 <img src={wind_icon} alt="" />
                 <div>
-                    <p>{weatherData.windSpeed} Km/h</p>
+                    <p>{weatherData.windSpeed} km/h</p>
                     <span>Wind Speed</span>
                 </div>
                 </div>
